@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Formulário de Contato
     const contactForm = document.getElementById('contact-form');
     const formStatus = document.getElementById('form-status');
+    const formspreeEndpoint = 'https://formspree.io/f/mrbkqgnp'; // SEU ENDPOINT DO FORMSPREE
 
     // Função auxiliar para obter variável CSS (usado no formStatus)
     const getCssVar = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -143,6 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Navegação Responsiva (Hamburger Menu)
     navToggle.addEventListener('click', () => {
         navMenu.classList.toggle('open');
+        // A classe 'open' no nav-toggle também pode controlar a animação do ícone
         navToggle.classList.toggle('open');
     });
 
@@ -151,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', () => {
             if (navMenu.classList.contains('open')) {
                 navMenu.classList.remove('open');
-                navToggle.classList.remove('open');
+                navToggle.classList.remove('open'); // Garante que o ícone do hambúrguer volte ao normal
             }
         });
     });
@@ -203,26 +205,39 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Formulário de Contato (usando mailto para GitHub Pages)
+    // Formulário de Contato (usando Formspree)
     contactForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
+        event.preventDefault(); // Previne o envio padrão do formulário
 
-        formStatus.textContent = 'Processando transmissão...';
+        formStatus.textContent = 'Enviando transmissão...';
         formStatus.style.color = getCssVar('--primary-color');
 
         const formData = new FormData(contactForm);
-        const data = Object.fromEntries(formData.entries());
 
-        const subject = encodeURIComponent(`Contato Portfólio: ${data.name}`);
-        const body = encodeURIComponent(`Remetente: ${data.name}\nEmail: ${data.email}\n\nMensagem:\n${data.message}\n\n[Transmissão Gerada por Syntax Canvas]`);
-        window.location.href = `mailto:seuemail@example.com?subject=${subject}&body=${body}`;
+        try {
+            const response = await fetch(formspreeEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json' // Importante para o Formspree retornar JSON
+                },
+                body: formData // Envia o FormData diretamente
+            });
 
-        // Pequeno delay para a mensagem de status aparecer antes de abrir o cliente de email
-        setTimeout(() => {
-            formStatus.textContent = 'Comando executado: Por favor, finalize o envio no seu cliente de e-mail.';
-            formStatus.style.color = getCssVar('--primary-color');
-            contactForm.reset();
-        }, 500);
+            if (response.ok) {
+                formStatus.textContent = 'Transmissão enviada com sucesso! Aguarde meu retorno.';
+                formStatus.style.color = getCssVar('--primary-color'); // Cor verde de sucesso
+                contactForm.reset(); // Limpa o formulário após o sucesso
+            } else {
+                const errorData = await response.json();
+                console.error('Erro ao enviar formulário Formspree:', errorData); // Para debug
+                formStatus.textContent = `Falha na transmissão: ${errorData.errors ? errorData.errors[0].message : 'Tente novamente.'}`;
+                formStatus.style.color = getCssVar('--accent-color'); // Cor de erro
+            }
+        } catch (error) {
+            console.error('Erro de rede Formspree:', error); // Para debug
+            formStatus.textContent = 'Erro de conexão. Verifique sua rede e tente novamente.';
+            formStatus.style.color = getCssVar('--accent-color'); // Cor de erro
+        }
     });
 
     // --- Observer para Animações de Entrada de Seções (Fade-in) ---
