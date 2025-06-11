@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portifólio - Julio Kevyn</title>
-    <link rel="stylesheet" href="style.css"> <link rel="icon" type="image/png" href="images/favicon-tech.png">
+    <link rel="stylesheet" href="css/style.css"> <link rel="icon" type="image/png" href="images/favicon-tech.png">
 
     <script src="https://kit.fontawesome.com/67ed9c4610.js" crossorigin="anonymous"></script>
 
@@ -12,10 +12,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     
     <meta name="description" content="Portfólio Profissional Julio Kevyn - Desenvolvedor de Software e Especialista em Automação.">
-    <meta property="og:title" content="Portfólio Julio Kevyn">
+    <meta property="og:title" content="Portifólio Julio Kevyn">
     <meta property="og:description" content="Meu universo de código, projetos inovadores e soluções tecnológicas.">
     <meta property="og:image" content="images/og-image.png">
-    <meta property="og:url" content="https://seu-usuario.github.io"> <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:url" content="https://juliokevyn.github.io"> <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
     <canvas id="background-canvas"></canvas>
@@ -24,7 +24,8 @@
         <nav class="navbar">
             <a href="#hero" class="logo">Julio Kevyn<span class="cursor-blink">_</span></a>
             <button class="nav-toggle" aria-label="Abrir menu de navegação">
-                <i class="fa-solid fa-bars hamburger-icon"></i> </button>
+                <i class="fa-solid fa-bars hamburger-icon"></i>
+            </button>
             <ul class="nav-menu">
                 <li><a href="#hero">Início</a></li>
                 <li><a href="#projects">Projetos</a></li>
@@ -194,7 +195,8 @@
 
         <div id="modal-automacao-parametrizacao" class="project-modal">
             <div class="modal-content">
-                <span class="close-button" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></span> <div class="modal-header">
+                <span class="close-button" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></span>
+                <div class="modal-header">
                     <h3 class="glitch" data-text="Automação Parametrização">Automação Parametrização</h3>
                     <div class="modal-tags">
                         <span class="tech-tag">#Automação</span>
@@ -227,7 +229,7 @@
                     <a href="https://github.com/JulioKevyn/automacao-parametrizacao" target="_blank" rel="noopener noreferrer" class="btn github-btn">
                         <i class="fa-brands fa-github"></i> Ver Código
                     </a>
-                    </div>
+                </div>
             </div>
         </div>
 
@@ -676,7 +678,7 @@
                 <p class="contact-intro">
                     Estou sempre aberto a novas conexões e oportunidades. Envie uma mensagem ou conecte-se nas minhas redes.
                 </p>
-                <form id="contact-form" class="contact-form">
+                <form id="contact-form" action="https://formspree.io/f/mrbkqgnp" method="POST" class="contact-form">
                     <div class="form-group">
                         <label for="name">Nome:</label>
                         <input type="text" id="name" name="name" required placeholder="Nome de Usuário">
@@ -689,14 +691,15 @@
                         <label for="message">Mensagem:</label>
                         <textarea id="message" name="message" rows="7" required placeholder="Digite seu comando..."></textarea>
                     </div>
-                    <button type="submit" class="btn primary-btn">Enviar Transmissão <i class="fa-solid fa-paper-plane"></i></button> <div id="form-status" class="form-status"></div>
+                    <button type="submit" class="btn primary-btn">Enviar Transmissão <i class="fa-solid fa-paper-plane"></i></button>
+                    <div id="form-status" class="form-status"></div>
                 </form>
                 <div class="social-links">
                     <h4>// Protocolos de Conexão:</h4>
                     <ul>
                         <li><a href="https://www.linkedin.com/in/julio-kevyn-61618729a/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-icon-link"><i class="fa-brands fa-linkedin"></i></a></li>
                         <li><a href="https://github.com/JulioKevyn" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="social-icon-link"><i class="fa-brands fa-github"></i></a></li>
-                        </ul>
+                    </ul>
                 </div>
             </div>
         </section>
@@ -705,9 +708,10 @@
     <footer class="main-footer">
         <div class="footer-content">
             <p>&copy; 2025 Portifolio - Julio Kevyn. Todos os direitos de bits reservados.</p>
+            <p>Criado com &#10084; e `$<\text{code}>`$.</p>
         </div>
     </footer>
 
-    <script src="script.js"></script> <script src="background-animation.js"></script>
+    <script src="js/script.js"></script> <script src="js/background-animation.js"></script>
 </body>
 </html>
