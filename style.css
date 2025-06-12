@@ -37,7 +37,7 @@ body {
     line-height: 1.8; /* Aumenta o espaçamento para melhor leitura */
     color: var(--text-color-light);
     background-color: var(--background-dark);
-    /* REMOVIDO: overflow-y: hidden; ou overflow: hidden; que podem causar o bug do scroll */
+    /* **ATENÇÃO AQUI:** Removido 'overflow: hidden;' que pode causar o bug do scroll. O JS gerencia para modais. */
     overflow-x: hidden; /* Mantém para evitar scroll horizontal indesejado */
     -webkit-font-smoothing: antialiased;
     position: relative; /* Para o canvas de fundo */
@@ -181,8 +181,19 @@ section {
     position: relative; /* Para animação */
 }
 
-/* Removido o estilo do span.hamburger-icon e seus pseudo-elementos,
-   pois estamos usando i.fa-solid.fa-bars do Font Awesome */
+/* Estilo para o ícone Font Awesome de hambúrguer */
+.hamburger-icon {
+    color: var(--primary-color);
+    font-size: 30px; /* Tamanho do ícone */
+    display: block; /* Para garantir que o ícone é visível */
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Animação do ícone Font Awesome de hambúrguer */
+.nav-toggle.open .hamburger-icon {
+    color: var(--accent-color);
+    transform: rotate(90deg); /* Gira para fazer um 'X' ou um visual de abertura */
+}
 
 
 /* --- Seção Hero --- */
@@ -328,6 +339,20 @@ section {
     60% { clip: rect(10px, 9999px, 40px, 0); }
     80% { clip: rect(60px, 9999px, 90px, 0); }
     100% { clip: rect(70px, 9999px, 95px, 0); }
+}
+
+/* OTIMIZAÇÃO DO GLITCH PARA MOBILE: DESATIVAR EM TELAS PEQUENAS */
+@media (max-width: 768px) {
+    .glitch {
+        animation: none; /* Desativa a animação de movimento principal */
+    }
+
+    .glitch::before,
+    .glitch::after {
+        animation: none; /* Desativa as animações dos pseudo-elementos */
+        text-shadow: none; /* Remove o shadow que cria o efeito */
+        content: none; /* Remove os pseudo-elementos completamente */
+    }
 }
 
 
