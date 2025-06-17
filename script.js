@@ -144,6 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Navegação Responsiva (Hamburger Menu)
     navToggle.addEventListener('click', () => {
         navMenu.classList.toggle('open');
+        // A classe 'open' no nav-toggle também pode controlar a animação do ícone
         navToggle.classList.toggle('open');
     });
 
