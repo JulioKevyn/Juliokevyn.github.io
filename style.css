@@ -1,0 +1,598 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Montserrat:wght@300;400;600&display=swap');
+
+:root {
+    --bg-color: #000000; /* Fundo preto do espaço */
+    --star-color: #ffffff;
+    --shooting-star-color: #ffd700; /* Dourado para a estrela cadente */
+    --text-primary: #e0f2f7; /* Azul claro para texto principal */
+    --text-secondary: #bbdbe4;
+    --highlight-color: #8be9fd; /* Ciano brilhante para destaque */
+    --accent-color: #bd93f9; /* Roxo para acentos */
+    --shadow-color: rgba(0, 0, 0, 0.6);
+    --polaroid-bg: #f0f0f0; /* Fundo da polaroid */
+    --polaroid-shadow: rgba(0, 0, 0, 0.4);
+    --spotify-green: #1DB954; /* Verde do Spotify */
+}
+
+body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-x: hidden; /* Evita rolagem horizontal indesejada */
+    position: relative;
+}
+
+/* --- Animação de Introdução (Galáxia) --- */
+#galaxy-intro-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-color);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Mantém as estrelas e a estrela cadente dentro */
+    opacity: 1;
+    transition: opacity 1.5s ease-out; /* Controlado pelo JS com delay */
+}
+
+/* Contêiner para as estrelas geradas por JS */
+#stars-container, #shooting-stars-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Estilo para as estrelas individuais (geradas por JS) */
+.star {
+    position: absolute;
+    background-color: var(--star-color);
+    border-radius: 50%;
+    opacity: 0; /* Começa invisível */
+    animation: fadeInStar 2s ease-out forwards, twinkle 3s infinite alternate ease-in-out;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Brilho sutil */
+}
+
+@keyframes fadeInStar {
+    to { opacity: 1; }
+}
+
+@keyframes twinkle {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(0.8); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Estrelas Cadentes (geradas por JS) */
+.shooting-star-item {
+    position: absolute;
+    width: 4px; /* Largura da estrela */
+    height: 4px; /* Altura da estrela */
+    background: var(--shooting-star-color);
+    border-radius: 50%;
+    box-shadow: 0 0 10px 5px var(--shooting-star-color);
+    opacity: 0;
+    transform: rotate(45deg); /* Ângulo da cauda */
+}
+
+.shooting-star-item::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150px; /* Comprimento da cauda */
+    height: 2px; /* Espessura da cauda */
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), var(--shooting-star-color));
+    transform: translate(-100%, -50%);
+    border-radius: 50%;
+}
+
+/* Keyframes para as estrelas cadentes - aplicados via JS com randomização */
+@keyframes shootingStarAnim {
+    0% {
+        transform: translate(var(--start-x), var(--start-y)) scale(0.5) rotate(45deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1; /* Aparece rapidamente */
+    }
+    100% {
+        transform: translate(var(--end-x), var(--end-y)) scale(1) rotate(45deg);
+        opacity: 0;
+    }
+}
+
+
+.intro-text {
+    position: absolute;
+    bottom: 15%;
+    color: var(--text-primary);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2em; /* Usamos em para responsividade baseada na fonte */
+    opacity: 0;
+    animation: fadeInOutText 3s ease-in-out forwards;
+}
+
+@keyframes fadeInOutText {
+    0% { opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* --- Conteúdo Principal --- */
+.content-wrapper {
+    background-color: rgba(0, 0, 0, 0.8); /* Fundo semi-transparente para o conteúdo */
+    border-radius: 15px;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    padding: 40px;
+    text-align: center;
+    max-width: 900px;
+    width: 100%;
+    z-index: 1;
+    opacity: 0; /* Esconde o conteúdo inicialmente */
+    transform: translateY(20px);
+    transition: opacity 1s ease-in, transform 1s ease-in; /* Transição sem delay inicial aqui */
+}
+
+/* A classe visible é adicionada via JS para revelar o conteúdo */
+.content-wrapper.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.hidden {
+    display: none;
+}
+
+header h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3.5em;
+    color: var(--highlight-color);
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(139, 233, 253, 0.7);
+}
+
+.highlight {
+    color: var(--accent-color);
+    font-weight: 700;
+}
+
+header p {
+    font-size: 1.2em;
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+    font-style: italic;
+}
+
+/* --- Animações Gerais de Texto --- */
+.animated-text {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideUpFadeIn 0.8s ease-out forwards;
+    /* Delays definidos no JS para sincronizar com a transição do content-wrapper */
+}
+
+@keyframes slideUpFadeIn {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Seção de Fotos (Grid) --- */
+.photo-section {
+    margin: 40px 0;
+}
+
+.photo-section h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5em;
+    color: var(--highlight-color);
+    margin-bottom: 30px;
+}
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    justify-content: center;
+}
+
+.grid-item {
+    width: 100%; /* Ocupa a largura disponível no grid */
+    padding-bottom: 100%; /* Hack para manter proporção 1:1 */
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    overflow: hidden;
+    position: relative;
+    border: 3px solid var(--accent-color);
+    transform: scale(0.95);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    cursor: pointer;
+    opacity: 0;
+    animation: fadeInPhoto 1s forwards;
+    /* Delays definidos no JS */
+}
+
+@keyframes fadeInPhoto {
+    to { opacity: 1; transform: scale(1); }
+}
+
+
+.grid-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* --- Seção de Vídeos --- */
+.video-section {
+    margin: 60px 0;
+}
+
+.video-section h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5em;
+    color: var(--highlight-color);
+    margin-bottom: 30px;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Vídeos um pouco maiores */
+    gap: 20px;
+    justify-content: center;
+}
+
+.video-item {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    overflow: hidden;
+    position: relative;
+    padding-bottom: 56.25%; /* Proporção 16:9 para vídeos */
+    height: 0;
+    opacity: 0;
+    animation: slideUpFadeIn 0.8s ease-out forwards; /* Usa animação de texto */
+    border: 3px solid var(--accent-color);
+}
+
+.video-item video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 7px; /* Borda interna para o vídeo */
+}
+
+/* --- Seção do Spotify (Polaroid) --- */
+.spotify-section {
+    margin: 60px 0;
+}
+
+.spotify-section h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5em;
+    color: var(--highlight-color);
+    margin-bottom: 30px;
+}
+
+.polaroid {
+    background-color: var(--polaroid-bg);
+    padding: 15px 15px 30px 15px; /* Mais padding embaixo para a legenda */
+    border-radius: 5px;
+    box-shadow: 0 5px 15px var(--polaroid-shadow);
+    display: inline-block; /* Para se ajustar ao tamanho da imagem */
+    margin: 0 auto;
+    max-width: 90%; /* Ajuste para responsividade */
+    transform: rotate(2deg); /* Inclinação leve */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    position: relative; /* Para posicionar o botão */
+}
+
+.polaroid:hover {
+    transform: rotate(0deg) scale(1.03); /* Endireita e aumenta um pouco no hover */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+}
+
+.polaroid img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid #ccc; /* Borda sutil na imagem */
+}
+
+.polaroid-caption {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.music-control-btn {
+    background-color: var(--spotify-green);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px; /* Botão arredondado */
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: fit-content; /* Ajusta ao conteúdo */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.music-control-btn:hover {
+    background-color: #1ed760; /* Tom mais claro de verde */
+    transform: translateY(-2px);
+}
+
+.music-control-btn i {
+    font-size: 1.2em;
+}
+
+
+/* --- Contador de Tempo --- */
+.love-timer {
+    margin: 60px 0;
+}
+
+.love-timer h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5em;
+    color: var(--highlight-color);
+    margin-bottom: 30px;
+}
+
+#countdown {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.time-unit {
+    background-color: rgba(255, 255, 255, 0.05); /* Um pouco transparente */
+    padding: 25px 35px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    min-width: 120px;
+    text-align: center;
+    border: 2px solid var(--accent-color);
+}
+
+.time-unit span {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3.2em;
+    font-weight: 700;
+    color: var(--highlight-color);
+    display: block;
+    margin-bottom: 5px;
+    text-shadow: 0 0 10px rgba(139, 233, 253, 0.7);
+}
+
+.pulse-animation span {
+    animation: heartbeatPulse 1.5s infinite alternate ease-in-out;
+}
+
+@keyframes heartbeatPulse {
+    0% { transform: scale(1); text-shadow: 0 0 5px var(--highlight-color); }
+    100% { transform: scale(1.05); text-shadow: 0 0 15px var(--highlight-color), 0 0 25px var(--highlight-color); }
+}
+
+.time-unit p {
+    font-size: 1em;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+}
+
+.anniversary-message {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.4em;
+    color: var(--text-secondary);
+    margin-top: 25px;
+    font-style: italic;
+}
+
+/* --- Seção de Mensagem --- */
+.message-section {
+    margin: 60px 0;
+    padding: 0 30px;
+}
+
+.message-section h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5em;
+    color: var(--highlight-color);
+    margin-bottom: 30px;
+}
+
+#typing-effect {
+    min-height: 150px; /* Espaço para a mensagem digitada */
+    background-color: rgba(255, 255, 255, 0.03); /* Fundo sutil */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: left;
+}
+
+#typing-effect p {
+    font-size: 1.1em;
+    line-height: 1.8;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.message-section .signature {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8em;
+    color: var(--highlight-color);
+    margin-top: 40px;
+    text-align: right;
+    font-weight: bold;
+}
+
+footer {
+    margin-top: 60px;
+    padding-top: 25px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #999;
+    font-size: 0.85em;
+    font-style: italic;
+}
+
+/* --- Responsividade --- */
+@media (max-width: 800px) {
+    .content-wrapper {
+        padding: 30px;
+    }
+    header h1 {
+        font-size: 2.8em;
+    }
+    header p {
+        font-size: 1.1em;
+    }
+    .intro-text {
+        font-size: 1em;
+    }
+
+    .photo-section h2, .love-timer h2, .message-section h2, .spotify-section h2, .video-section h2 {
+        font-size: 2em;
+    }
+    .photo-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+    }
+    .grid-item {
+        height: 150px;
+        width: 150px;
+    }
+    .video-grid {
+        grid-template-columns: 1fr; /* Uma coluna em telas menores para vídeos */
+    }
+    .polaroid {
+        padding: 10px 10px 20px 10px;
+    }
+    .polaroid-caption {
+        font-size: 0.8em;
+    }
+    .music-control-btn {
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
+    #countdown {
+        gap: 20px;
+    }
+    .time-unit {
+        padding: 20px 25px;
+        min-width: 100px;
+    }
+    .time-unit span {
+        font-size: 2.5em;
+    }
+    .anniversary-message {
+        font-size: 1.2em;
+    }
+    .message-section p {
+        font-size: 1em;
+    }
+    .message-section .signature {
+        font-size: 1.5em;
+    }
+}
+
+@media (max-width: 550px) {
+    body {
+        padding: 10px;
+    }
+    .content-wrapper {
+        padding: 20px;
+    }
+    header h1 {
+        font-size: 2.2em;
+    }
+    header p {
+        font-size: 0.9em;
+    }
+    .intro-text {
+        font-size: 0.9em;
+        bottom: 10%;
+    }
+
+    .photo-section h2, .love-timer h2, .message-section h2, .spotify-section h2, .video-section h2 {
+        font-size: 1.8em;
+    }
+    .photo-grid {
+        grid-template-columns: 1fr; /* Uma coluna em telas muito pequenas */
+        gap: 10px;
+    }
+    .grid-item {
+        width: 100%; /* Ocupa a largura total */
+        padding-bottom: 75%; /* Ajusta proporção para 4:3 ou outro para se adequar melhor */
+        height: auto;
+    }
+    .polaroid {
+        padding: 8px 8px 16px 8px;
+        transform: rotate(0deg); /* Remove a rotação em telas pequenas para melhor encaixe */
+    }
+    .polaroid-caption {
+        font-size: 0.75em;
+    }
+    .music-control-btn {
+        padding: 6px 12px;
+        font-size: 0.8em;
+        gap: 5px;
+    }
+    .music-control-btn i {
+        font-size: 1em;
+    }
+    #countdown {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .time-unit {
+        width: 90%;
+        min-width: unset;
+    }
+    .time-unit span {
+        font-size: 2em;
+    }
+    .anniversary-message {
+        font-size: 1em;
+    }
+    #typing-effect {
+        padding: 15px;
+        min-height: 100px;
+    }
+    #typing-effect p {
+        font-size: 0.9em;
+    }
+    .message-section .signature {
+        font-size: 1.2em;
+    }
+}

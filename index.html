@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosso Universo de Amor!</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div id="galaxy-intro-overlay">
+        <div id="stars-container"></div>
+        <div id="shooting-stars-container"></div>
+        <div class="intro-text">Preparando nosso universo...</div>
+    </div>
+
+    <div class="content-wrapper hidden">
+        <header>
+            <h1 class="animated-text">Eu <span class="highlight">Te Amo</span>, Isa!</h1>
+            <p class="animated-text delay-1">Desde a primeira vez que te vi, cada momento é um presente..</p>
+        </header>
+
+        <section class="photo-section">
+            <h2 class="animated-text delay-2">Nossas Memórias <i class="fas fa-star"></i></h2>
+            <div class="photo-grid">
+                <div class="grid-item animated-photo" style="background-image: url('foto1.jpg');"></div>
+                <div class="grid-item animated-photo" style="background-image: url('foto2.jpg');"></div>
+                <div class="grid-item animated-photo" style="background-image: url('foto3.jpg');"></div>
+                <div class="grid-item animated-photo" style="background-image: url('foto4.jpg');"></div>
+                </div>
+        </section>
+
+        <section class="video-section">
+            <h2 class="animated-text delay-3">Momentos que eu queria de volta <i class="fas fa-video"></i></h2>
+            <div class="video-grid">
+                <div class="video-item animated-video delay-4">
+                    <video id="video1" src="video1.mp4" loop muted playsinline></video>
+                </div>
+                <div class="video-item animated-video delay-5">
+                    <video id="video2" src="video2.mp4" loop muted playsinline></video>
+                </div>
+                </div>
+        </section>
+
+        <section class="spotify-section">
+            <h2 class="animated-text delay-6">Nossa Trilha Sonora <i class="fab fa-spotify"></i></h2>
+            <div class="polaroid animated-text delay-7">
+                <img src="spotify_print.jpg" alt="Música Favorita no Spotify">
+                <p class="polaroid-caption">O que toca na minha cabeça toda vez que eu te vejo</p>
+                <button id="playMusicBtn" class="music-control-btn"><i class="fas fa-play"></i> Tocar Nossa Música</button>
+                <audio id="backgroundMusic" src="musica.mp3" loop></audio> </div>
+        </section>
+
+        <section class="love-timer">
+            <h2 class="animated-text delay-8">Juntos há:</h2>
+            <div id="countdown">
+                <div class="time-unit pulse-animation">
+                    <span id="days">00</span>
+                    <p>dias</p>
+                </div>
+                <div class="time-unit pulse-animation">
+                    <span id="hours">00</span>
+                    <p>horas</p>
+                </div>
+                <div class="time-unit pulse-animation">
+                    <span id="minutes">00</span>
+                    <p>minutos</p>
+                </div>
+                <div class="time-unit pulse-animation">
+                    <span id="seconds">00</span>
+                    <p>segundos</p>
+                </div>
+            </div>
+            <p class="animated-text delay-9">Desde o dia 01/01/2020, cada segundo ao seu lado, é um PRESENTE pra mim.</p>
+        </section>
+
+        <section class="message-section">
+            <h2 class="animated-text delay-10">Uma Mensagem do Meu Coração pra Você ❤️</h2>
+            <div id="typing-effect" class="animated-text delay-11">
+                <p>As vezes eu penso como teria sido se eu não tivesse ido falar com voce naquele dia, eu não teria conhecido a mulher da minha vida, que esta comigo em todos os momentos,me apoia e me motiva a ser </p>
+            </div>
+            <p class="signature animated-text delay-12">- Com amor sem limites, Julio Kevyn</p>
+        </section>
+
+        <footer>
+            <p class="animated-text delay-13">&copy; Nosso universo particular. Criado por Julio pra Isa.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
